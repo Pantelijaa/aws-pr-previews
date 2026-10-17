@@ -9,7 +9,7 @@
     "includes": ["**", "!dist"]
   },
   "formatter": {
-    "indentStyle": "space"
+    "useEditorconfig": true
   },
   "linter": {
     "rules": {
