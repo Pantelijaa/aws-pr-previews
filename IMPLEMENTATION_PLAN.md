@@ -62,12 +62,12 @@ The build order for `aws-pr-previews`, arranged as a learning path. Requirements
 **Why now:** the whole product deploys containers. You should have built and run one by hand before any cloud service does it for you.
 
 **Build**
-- [ ] `examples/demo-app/server.js`: a `node:http` server, about 25 lines. `/` returns an HTML page showing the `PR_PREVIEW_*` environment variables (or "not set") and the build time; `/healthz` returns 200. Port from `PORT`, default 8080, listening on `0.0.0.0`.
-- [ ] `examples/demo-app/Dockerfile`: `node:22-slim`, a non-root user, the Web Adapter `COPY` line, `EXPOSE 8080`, `CMD ["node", "server.js"]`. Single stage; there is nothing to compile.
+- [x] `examples/demo-app/server.ts`: a `node:http` server, about 25 lines. `/` returns an HTML page showing the `PR_PREVIEW_*` environment variables (or "not set") and the build time; `/healthz` returns 200. Port from `PORT`, default 8080, listening on `0.0.0.0`.
+- [x] `examples/demo-app/Dockerfile`: `node:24-slim`, a non-root user, the Web Adapter `COPY` line, `EXPOSE 8080`, `CMD ["node", "server.ts"]`. Single stage; there is nothing to compile.
 
 **Verify**
-- [ ] `docker build -t demo-app:dev examples/demo-app`, then `docker run --rm -p 8080:8080 -e PR_PREVIEW_PR=1 demo-app:dev` and `curl localhost:8080/healthz` returns 200. The adapter does nothing outside Lambda, which you can see in the container's logs.
-- [ ] `docker image ls demo-app` shows an image under 250 MB.
+- [x] `docker build -t demo-app:dev examples/demo-app`, then `docker run --rm -p 8080:8080 -e PR_PREVIEW_PR=1 demo-app:dev` and `curl localhost:8080/healthz` returns 200. The adapter does nothing outside Lambda, which you can see in the container's logs.
+- [x] `docker image ls demo-app` shows the image size: 335 MB, almost all of it the `node:24-slim` base. An `alpine` base would roughly halve it; noted for later, not needed now.
 
 **Interview prep:** image versus container; what a layer is and why order matters for the build cache; why run as non-root; `ENTRYPOINT` versus `CMD`; why `0.0.0.0` and not `127.0.0.1` inside a container; what the Web Adapter line adds to the image.
 

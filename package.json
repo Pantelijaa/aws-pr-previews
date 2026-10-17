@@ -1,23 +1,23 @@
 {
-  "name": "aws-pr-previews",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Per-pull-request preview environments on AWS Lambda, at zero idle cost.",
-  "license": "MIT",
-  "engines": {
-    "node": ">=22"
-  },
-  "scripts": {
-    "check": "biome ci . && tsc --noEmit",
-    "test": "vitest run",
-    "build": "esbuild index=src/action.ts cli=src/cli.ts reaper=src/reaper.ts --bundle --platform=node --target=node22 --format=cjs --outdir=dist"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.5.15",
-    "@types/node": "^24.19.2",
-    "aws-sdk-client-mock": "^4.1.0",
-    "esbuild": "^0.28.2",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
-  }
+    "name": "aws-pr-previews",
+    "version": "0.0.0",
+    "private": true,
+    "description": "Per-pull-request preview environments on AWS Lambda, at zero idle cost.",
+    "license": "MIT",
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "check": "biome ci . && tsc --noEmit",
+        "test": "vitest run",
+        "build": "esbuild index=src/action.ts cli=src/cli.ts reaper=src/reaper.ts --bundle --platform=node --target=node22 --format=cjs --outdir=dist"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.5.15",
+        "@types/node": "^24.19.2",
+        "aws-sdk-client-mock": "^4.1.0",
+        "esbuild": "^0.28.2",
+        "typescript": "^7.0.2",
+        "vitest": "^5.0.5"
+    }
 }

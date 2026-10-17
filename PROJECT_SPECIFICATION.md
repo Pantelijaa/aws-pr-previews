@@ -178,7 +178,7 @@ flowchart LR
 | **Reaper** | `src/reaper.ts` → `dist/reaper.js` | Finds expired previews by tag and calls the backend's `destroy`. Runs on a schedule as a Lambda. |
 | **Terraform module** | `terraform/modules/aws-pr-previews/` | All static infrastructure. Publishes the SSM config. |
 | **Example root** | `terraform/examples/complete/` | The maintainer's real deployment. Used by the dogfood workflow and as copy-paste documentation. |
-| **Demo app** | `examples/demo-app/` | ~25-line Node HTTP server that prints PR number, commit and build time, plus `/healthz`. Includes the Web Adapter line. Used for dogfooding and the README GIF. |
+| **Demo app** | `examples/demo-app/` | ~25-line TypeScript HTTP server, run by Node directly, that prints PR number, commit and build time, plus `/healthz`. Includes the Web Adapter line. Used for dogfooding and the README GIF. |
 
 ### 7.3 The backend interface
 
@@ -415,7 +415,7 @@ aws-pr-previews/
 │   ├── bootstrap/                  # S3 state bucket, applied once with local state
 │   └── examples/complete/          # the maintainer's deployment
 ├── examples/
-│   ├── demo-app/                   # server.js, Dockerfile (with Web Adapter line)
+│   ├── demo-app/                   # server.ts, Dockerfile (with Web Adapter line)
 │   └── workflows/preview.yml       # copy-paste workflow for users
 ├── docs/
 │   ├── concepts/                   # one short note per concept (see §5)
@@ -439,7 +439,7 @@ aws-pr-previews/
 | Tests | `vitest` with `aws-sdk-client-mock` | The standard way to test SDK v3 calls without AWS. |
 | IaC | Terraform ≥ 1.10 (S3 backend with native lockfile), AWS provider 5.x | |
 | IaC quality | `terraform fmt`, `validate`, `tflint`, `checkov`, `terraform-docs` | |
-| Containers | Demo app on `node:22-slim`, non-root, Web Adapter line, Trivy scan | |
+| Containers | Demo app on `node:24-slim`, non-root, Web Adapter line, Trivy scan | |
 | Registry | ECR, created by the module. The action itself needs no registry. | |
 
 ## 12. Quality
