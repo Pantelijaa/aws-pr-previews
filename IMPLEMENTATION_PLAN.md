@@ -388,44 +388,44 @@ Planned, not scheduled. Pick it up after v1.0 with the same step loop. Idle cost
 
 ## Concept map
 
-Every note lives in `docs/concepts/<slug>.md` and is written in the step that introduces it.
+Every note lives in `docs/concepts/<no>-<slug>.md`, numbered in the order the steps introduce them, and is written in the step that introduces it.
 
-| Slug | Step | Area |
-|------|------|------|
-| `aws-account-and-iam-basics` | 0 | AWS |
-| `aws-cost-safety` | 0 | AWS |
-| `typescript-and-node-tooling` | 1 | Tooling |
-| `linting-formatting-typing` | 1 | Tooling |
-| `containers-and-images` | 2 | Docker |
-| `dockerfile-basics` | 2 | Docker |
-| `lambda-web-adapter` | 2 | Docker, AWS |
-| `ci-cd-overview` | 3 | CI/CD |
-| `github-actions-basics` | 3 | CI/CD |
-| `infrastructure-as-code` | 4 | IaC |
-| `terraform-state-and-backends` | 4 | IaC |
-| `terraform-modules` | 4 | IaC |
-| `container-registries-and-ecr` | 5 | Docker, AWS |
-| `iam-policies-and-roles` | 6 | Security |
-| `cloudwatch-logs` | 6 | AWS |
-| `aws-lambda` | 7 | AWS |
-| `lambda-container-images-and-the-web-adapter` | 7 | AWS |
-| `lambda-function-urls` | 7 | AWS |
-| `github-oidc-federation` | 8 | Security, CI/CD |
-| `ssm-parameter-store-vs-secrets-manager` | 9 | AWS |
-| `aws-sdk-v3` | 10 | Code |
-| `idempotency-and-deterministic-naming` | 10 | Design |
-| `ports-and-adapters` | 10 | Design |
-| `lambda-failure-modes` | 11 | Operations |
-| `debugging-lambda-containers` | 11 | Operations |
-| `eventual-consistency-and-retries` | 12 | Design |
-| `github-javascript-actions-and-bundling` | 13 | CI/CD |
-| `github-event-payloads-and-permissions` | 13 | CI/CD |
-| `eventbridge-schedules` | 14 | AWS |
-| `tag-based-resource-discovery` | 14 | Design |
-| `gitops-for-infrastructure` | 15 | CI/CD |
-| `github-environments-and-approvals` | 15 | CI/CD |
-| `semantic-versioning-and-release-automation` | 16 | CI/CD |
-| `supply-chain-security` | 16 | Security |
-| `open-source-project-hygiene` | 17 | Community |
-| `networking-basics-for-interviews` | 17 | Networking (interview only) |
-| `vpc-and-subnets`, `security-groups`, `ecs-and-fargate`, `ecs-task-definitions-and-iam-roles`, `load-balancers-and-the-alb`, `tls-certificates-and-acm`, `dns-and-route53` | Roadmap R1–R3 | ECS backend |
+| No. | Slug | Step | Area |
+|-----|------|------|------|
+| 01 | `aws-account-and-iam-basics` | 0 | AWS |
+| 02 | `aws-cost-safety` | 0 | AWS |
+| 03 | `typescript-and-node-tooling` | 1 | Tooling |
+| 04 | `linting-formatting-typing` | 1 | Tooling |
+| 05 | `containers-and-images` | 2 | Docker |
+| 06 | `dockerfile-basics` | 2 | Docker |
+| 07 | `lambda-web-adapter` | 2 | Docker, AWS |
+| 08 | `ci-cd-overview` | 3 | CI/CD |
+| 09 | `github-actions-basics` | 3 | CI/CD |
+| 10 | `infrastructure-as-code` | 4 | IaC |
+| 11 | `terraform-state-and-backends` | 4 | IaC |
+| 12 | `terraform-modules` | 4 | IaC |
+| 13 | `container-registries-and-ecr` | 5 | Docker, AWS |
+| 14 | `iam-policies-and-roles` | 6 | Security |
+| 15 | `cloudwatch-logs` | 6 | AWS |
+| 16 | `aws-lambda` | 7 | AWS |
+| 17 | `lambda-container-images-and-the-web-adapter` | 7 | AWS |
+| 18 | `lambda-function-urls` | 7 | AWS |
+| 19 | `github-oidc-federation` | 8 | Security, CI/CD |
+| 20 | `ssm-parameter-store-vs-secrets-manager` | 9 | AWS |
+| 21 | `aws-sdk-v3` | 10 | Code |
+| 22 | `idempotency-and-deterministic-naming` | 10 | Design |
+| 23 | `ports-and-adapters` | 10 | Design |
+| 24 | `lambda-failure-modes` | 11 | Operations |
+| 25 | `debugging-lambda-containers` | 11 | Operations |
+| 26 | `eventual-consistency-and-retries` | 12 | Design |
+| 27 | `github-javascript-actions-and-bundling` | 13 | CI/CD |
+| 28 | `github-event-payloads-and-permissions` | 13 | CI/CD |
+| 29 | `eventbridge-schedules` | 14 | AWS |
+| 30 | `tag-based-resource-discovery` | 14 | Design |
+| 31 | `gitops-for-infrastructure` | 15 | CI/CD |
+| 32 | `github-environments-and-approvals` | 15 | CI/CD |
+| 33 | `semantic-versioning-and-release-automation` | 16 | CI/CD |
+| 34 | `supply-chain-security` | 16 | Security |
+| 35 | `open-source-project-hygiene` | 17 | Community |
+| 36 | `networking-basics-for-interviews` | 17 | Networking (interview only) |
+| R | `vpc-and-subnets`, `security-groups`, `ecs-and-fargate`, `ecs-task-definitions-and-iam-roles`, `load-balancers-and-the-alb`, `tls-certificates-and-acm`, `dns-and-route53` | Roadmap R1–R3 | ECS backend |

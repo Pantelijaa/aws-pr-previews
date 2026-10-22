@@ -62,7 +62,7 @@ Out of scope on purpose. Each is a roadmap candidate (§17), not a silent extens
 
 This repository is built by someone learning AWS from zero, and the README says so. That is a feature: "learn Lambda, IAM and Terraform by building a real tool" is a story people star.
 
-- **Concept notes** live in `docs/concepts/<slug>.md`, one per concept, roughly 40–60 lines each. Template in [AGENTS.md](AGENTS.md).
+- **Concept notes** live in `docs/concepts/<no>-<slug>.md`, one per concept, numbered in learning order, roughly 40–60 lines each. Template in [AGENTS.md](AGENTS.md).
 - **Order of work** in the implementation plan is chosen so no step uses a concept that an earlier step has not introduced.
 - **Loop per step:** concepts → smallest deliverable → verification → interview questions → stop.
 - **Interview prep** is part of each concept note: three to five questions with short model answers. Networking (VPC, subnets, security groups, load balancers) gets an interview-only note even though v1.0 builds none of it, because it is the most asked topic and the ECS backend will need it.
