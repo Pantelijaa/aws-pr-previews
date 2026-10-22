@@ -181,7 +181,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Build**
 - [ ] `iam.tf` (part two): the GitHub OIDC provider (or `var.github_oidc_provider_arn`), the deploy role with a trust policy limited to `repo:<owner>/<repo>:*` for each entry in `var.github_repositories`, and the permission policy from spec §9.7. Start with exactly the listed actions; widen only when a real call is denied, and record why.
 - [ ] A workflow step in `ci.yml`: `configure-aws-credentials` with the role, then `aws sts get-caller-identity`.
-- [ ] Log the `docker` job in to `public.ecr.aws` with `aws ecr-public get-login-password` before building, and remove the retry loop that Step 3 added around `docker build`. Anonymous pulls from shared runner addresses hit the registry's rate limit.
+- [ ] Log the `docker` job in to `public.ecr.aws` with `aws ecr-public get-login-password` before building, and remove the adapter image cache that Step 3 added to the `docker` job. Anonymous pulls from shared runner addresses hit the registry's rate limit.
 
 **Verify**
 - [ ] The workflow prints the deploy role's ARN. Reason through why a fork or another repository cannot assume it.
