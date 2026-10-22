@@ -80,8 +80,8 @@ The build order for `aws-pr-previews`, arranged as a learning path. Requirements
 **Why now:** from here on every change gets checked by a machine before a human looks at it.
 
 **Build**
-- [ ] `.github/workflows/ci.yml` on `pull_request` and `push` to `main`: one job that checks out, sets up Node from `package.json`, runs `npm ci`, `npm run check`, `npm test`, `npm run build` and fails if `git diff --exit-code dist/` shows changes; a second job that builds `examples/demo-app` without pushing.
-- [ ] `actionlint` and `gitleaks` as steps.
+- [x] `.github/workflows/ci.yml` on `pull_request` and `push` to `main`: one job that checks out, sets up Node from `package.json`, runs `npm ci`, `npm run check`, `npm test`, `npm run build` and fails if `git diff --exit-code dist/` shows changes; a second job that builds `examples/demo-app` without pushing.
+- [x] `actionlint` and `gitleaks` as steps.
 - [ ] Push the repository to GitHub. Protect `main`: require the CI check to pass.
 
 **Verify**
