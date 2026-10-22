@@ -43,7 +43,7 @@ jobs:
         run: |
           for attempt in 1 2 3; do
             docker build -t demo-app:ci examples/demo-app && exit 0
-            echo "attempt $attempt failed, retrying in 30s"
-            sleep 30
+            echo "attempt $attempt failed, retrying in 90s"
+            sleep 90
           done
           exit 1
