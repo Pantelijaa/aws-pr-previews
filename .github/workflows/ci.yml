@@ -36,6 +36,19 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    env:
+      ADAPTER: public.ecr.aws/awsguru/aws-lambda-adapter:1.0.1
     steps:
       - uses: actions/checkout@v5
+      # public.ecr.aws returns 429 for anonymous pulls from busy runners, so the
+      # adapter image is pulled once and kept in the Actions cache.
+      - uses: actions/cache@v4
+        id: adapter
+        with:
+          path: lambda-adapter.tar
+          key: lambda-adapter-1.0.1
+      - if: steps.adapter.outputs.cache-hit != 'true'
+        run: docker pull "$ADAPTER" && docker save "$ADAPTER" -o lambda-adapter.tar
+      - if: steps.adapter.outputs.cache-hit == 'true'
+        run: docker load -i lambda-adapter.tar
       - run: docker build -t demo-app:ci examples/demo-app

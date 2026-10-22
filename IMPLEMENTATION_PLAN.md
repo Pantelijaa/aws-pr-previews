@@ -82,11 +82,11 @@ The build order for `aws-pr-previews`, arranged as a learning path. Requirements
 **Build**
 - [x] `.github/workflows/ci.yml` on `pull_request` and `push` to `main`: one job that checks out, sets up Node from `package.json`, runs `npm ci`, `npm run check`, `npm test`, `npm run build` and fails if `git diff --exit-code dist/` shows changes; a second job that builds `examples/demo-app` without pushing.
 - [x] `actionlint` and `gitleaks` as steps.
-- [ ] Push the repository to GitHub. Protect `main`: require the CI check to pass.
+- [x] Push the repository to GitHub. Protect `main`: require the CI check to pass.
 
 **Verify**
-- [ ] A deliberately failing test on a branch turns the PR red; fixing it turns it green.
-- [ ] The CI badge in the README is green.
+- [x] A deliberately failing test on a branch turns the PR red; fixing it turns it green.
+- [x] The CI badge in the README is green.
 
 **Interview prep:** continuous integration versus delivery versus deployment; what a runner is; where secrets live in Actions and why they never appear in logs; what `permissions:` on a workflow controls; why a committed build product must be verified in CI.
 
@@ -181,6 +181,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Build**
 - [ ] `iam.tf` (part two): the GitHub OIDC provider (or `var.github_oidc_provider_arn`), the deploy role with a trust policy limited to `repo:<owner>/<repo>:*` for each entry in `var.github_repositories`, and the permission policy from spec §9.7. Start with exactly the listed actions; widen only when a real call is denied, and record why.
 - [ ] A workflow step in `ci.yml`: `configure-aws-credentials` with the role, then `aws sts get-caller-identity`.
+- [ ] Log the `docker` job in to `public.ecr.aws` with `aws ecr-public get-login-password` before building, and remove the adapter image cache that Step 3 added to the `docker` job. Anonymous pulls from shared runner addresses hit the registry's rate limit.
 
 **Verify**
 - [ ] The workflow prints the deploy role's ARN. Reason through why a fork or another repository cannot assume it.
