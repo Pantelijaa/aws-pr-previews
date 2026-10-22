@@ -38,4 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: docker build -t demo-app:ci examples/demo-app
+      - name: docker build
+        # public.ecr.aws returns 429 for anonymous pulls from busy runners.
+        run: |
+          for attempt in 1 2 3; do
+            docker build -t demo-app:ci examples/demo-app && exit 0
+            echo "attempt $attempt failed, retrying in 30s"
+            sleep 30
+          done
+          exit 1
