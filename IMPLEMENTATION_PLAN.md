@@ -103,13 +103,13 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Why now:** every AWS resource in this project is declared in Terraform. Understanding plan, apply and state before the first resource avoids the most common beginner mistakes.
 
 **Build**
-- [ ] `terraform/bootstrap/`: one S3 bucket for Terraform state (versioning on, public access blocked, encryption on). Applied once with local state; its tiny state file is committed, because it describes nothing secret and bootstraps everything else.
-- [ ] `terraform/examples/complete/`: `versions.tf` (Terraform ≥ 1.10, AWS provider 5.x), `backend.tf` (S3 backend with `use_lockfile = true`), `providers.tf` with `default_tags`, `main.tf` calling `../../modules/aws-pr-previews` with `name = "main"`.
-- [ ] `terraform/modules/aws-pr-previews/`: `versions.tf`, `variables.tf` with `name` and `tags`, empty `outputs.tf`. No resources yet.
+- [x] `terraform/bootstrap/`: one S3 bucket for Terraform state (versioning on, public access blocked; encryption is the AWS default). Applied once with local state. The state file is not committed, since the provider records the account ID in it; the file header lists the import commands that reattach it.
+- [x] `terraform/examples/complete/`: `versions.tf` (Terraform ≥ 1.10, AWS provider 6.x), `backend.tf` (S3 backend with `use_lockfile = true`), `providers.tf` with `default_tags`, `main.tf` calling `../../modules/aws-pr-previews` with `name = "main"`.
+- [x] `terraform/modules/aws-pr-previews/`: `versions.tf`, `variables.tf` with `name` and `tags`. No resources yet; `outputs.tf` arrives with the first output in Step 5.
 
 **Verify**
-- [ ] `terraform init`, `plan`, `apply` in `examples/complete` succeed with zero resources, and a state object appears in the bucket.
-- [ ] A second `plan` shows no changes.
+- [x] `terraform init`, `plan`, `apply` in `examples/complete` succeed with zero resources, and a state object appears in the bucket.
+- [x] A second `plan` shows no changes.
 
 **Interview prep:** what Terraform state is and why it must not be lost; why remote state and locking; plan versus apply; why state can contain secrets; what a module is and when to make one.
 

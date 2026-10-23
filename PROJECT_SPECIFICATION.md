@@ -412,7 +412,7 @@ aws-pr-previews/
 ├── terraform/
 │   ├── modules/aws-pr-previews/    # ecr.tf iam.tf logs.tf reaper.tf ssm.tf
 │   │                               # variables.tf outputs.tf versions.tf README.md
-│   ├── bootstrap/                  # S3 state bucket, applied once with local state
+│   ├── bootstrap/                  # S3 state bucket, applied once; its local state stays uncommitted
 │   └── examples/complete/          # the maintainer's deployment
 ├── examples/
 │   ├── demo-app/                   # server.ts, Dockerfile (with Web Adapter line)
@@ -437,7 +437,7 @@ aws-pr-previews/
 | Runtime deps | `@aws-sdk/client-lambda`, `client-ssm`, `client-cloudwatch-logs`, `client-resource-groups-tagging-api`, `@actions/core`, `@actions/github` | That is the whole budget. |
 | Dev deps | `typescript`, `esbuild`, `vitest`, `@biomejs/biome`, `aws-sdk-client-mock`, `@types/node` | Biome replaces ESLint plus Prettier with one tool. |
 | Tests | `vitest` with `aws-sdk-client-mock` | The standard way to test SDK v3 calls without AWS. |
-| IaC | Terraform ≥ 1.10 (S3 backend with native lockfile), AWS provider 5.x | |
+| IaC | Terraform ≥ 1.10 (S3 backend with native lockfile), AWS provider 6.x | |
 | IaC quality | `terraform fmt`, `validate`, `tflint`, `checkov`, `terraform-docs` | |
 | Containers | Demo app on `node:24-slim`, non-root, Web Adapter line, Trivy scan | |
 | Registry | ECR, created by the module. The action itself needs no registry. | |
