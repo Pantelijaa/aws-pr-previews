@@ -80,6 +80,7 @@ This repository is built by someone learning AWS from zero, and the README says 
    ```
    The adapter is inert outside Lambda, so the same image runs unchanged on a laptop, on ECS, or anywhere else.
 3. Be built for the architecture the preview runs on (`x86_64` by default). A `linux/arm64` image on an `x86_64` function fails at start; the diagnostics say so.
+4. Be pushed as a single-platform image, not an image index. Docker's containerd image store and `docker/build-push-action` attach a provenance attestation by default, which turns the tag into an index that Lambda rejects. `docker push --platform linux/amd64` or building with `--provenance=false` avoids it; the README shows both.
 
 **Happy path**
 

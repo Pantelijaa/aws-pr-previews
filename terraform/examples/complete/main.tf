@@ -1,5 +1,6 @@
 module "previews" {
   source = "../../modules/aws-pr-previews"
 
-  name = "main"
+  name             = "main"
+  ecr_repositories = ["demo-app"]
 }

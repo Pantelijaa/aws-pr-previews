@@ -282,7 +282,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 - [ ] `action.ts`: read inputs with `@actions/core`, derive `command`, PR number, repo and sha from the event, call `up` or `down`, set outputs.
 - [ ] `comment.ts`: find-or-create the sticky comment through Octokit; render the four states from spec §8.5.
 - [ ] `action.yml` with the inputs and outputs from spec §9.1, `runs: using: node24`, `main: dist/index.js`.
-- [ ] `.github/workflows/dogfood.yml`: on `pull_request` opened, synchronize, reopened and closed, build and push `demo-app` to ECR, then `uses: ./`. `concurrency` per PR.
+- [ ] `.github/workflows/dogfood.yml`: on `pull_request` opened, synchronize, reopened and closed, build and push `demo-app` to ECR, then `uses: ./`. `concurrency` per PR. Build with `--provenance=false` so the pushed tag is a plain image, not an index, which Lambda rejects (found in Step 5).
 - [ ] `examples/workflows/preview.yml`: the copy-paste workflow for users.
 
 **Verify**

@@ -13,3 +13,20 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "ecr_repositories" {
+  description = "Names of ECR repositories to create for application images."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecr_pr_image_expiry_days" {
+  description = "Days after which images tagged pr-* are deleted. Untagged images always expire after one day."
+  type        = number
+  default     = 14
+
+  validation {
+    condition     = var.ecr_pr_image_expiry_days >= 1
+    error_message = "Must be at least 1 day."
+  }
+}
