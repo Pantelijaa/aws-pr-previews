@@ -7,3 +7,4 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Repository bootstrap: TypeScript, Biome, vitest, esbuild, MIT license.
 - Demo app: a TypeScript HTTP server with the Lambda Web Adapter, under `examples/demo-app`.
 - Terraform skeleton: state bucket bootstrap, example root with an S3 backend, and the empty `aws-pr-previews` module.
+- Module: ECR repositories with scan-on-push and lifecycle policies (`ecr_repositories`, `ecr_pr_image_expiry_days`), with their URLs as an output.

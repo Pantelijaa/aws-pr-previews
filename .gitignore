@@ -15,7 +15,8 @@ coverage/
 # Claude Code
 .claude/
 CLAUDE.md
-AGENTS.md
+
+# Learning notes stay on the maintainer's machine
 docs/
 
 # OS

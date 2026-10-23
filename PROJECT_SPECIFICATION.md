@@ -42,7 +42,7 @@ Result, as a sticky comment on the PR:
 | G4 | Failures are diagnosable from the Actions log and PR comment alone: function state, last log lines, HTTP probe result, and a hint for the common causes. |
 | G5 | **Zero idle cost.** A stack with no open PRs costs nothing. An open preview costs nothing until someone requests it. |
 | G6 | Least privilege: the GitHub OIDC role is scoped to one function-name prefix, one log group and one SSM path. Secrets never appear as plaintext in workflow files. |
-| G7 | **Learning goal:** the maintainer can explain and defend every component in an interview. Each concept has a short note in `docs/concepts/`, written before the code that uses it. |
+| G7 | **Learning goal:** the maintainer can explain and defend every component in an interview. Each concept has a short note in `docs/concepts/`, kept outside the repository, written before the code that uses it. |
 | G8 | **Portfolio goal:** visibly exercise Docker (Dockerfiles, multi-arch awareness, ECR lifecycle, Trivy), AWS (Lambda container images, Function URLs, ECR, IAM + OIDC, EventBridge, SSM, CloudWatch, Resource Groups Tagging), TypeScript (strict, bundled action, SDK v3, tested with mocks) and CI/CD (lint/test/scan, Terraform plan-on-PR and apply-on-main via OIDC, release automation, dogfooding). |
 | G9 | **Extensibility:** compute is a **backend** behind one small interface. v1.0 ships the Lambda backend; an ECS Fargate plus load balancer backend is the first roadmap item and must slot in without touching the action, CLI, comment, naming or reaper. |
 
@@ -60,9 +60,9 @@ Out of scope on purpose. Each is a roadmap candidate (§17), not a silent extens
 
 ## 5. Learning model
 
-This repository is built by someone learning AWS from zero, and the README says so. That is a feature: "learn Lambda, IAM and Terraform by building a real tool" is a story people star.
+This repository is built by someone learning AWS from zero, and the README says so. The concept notes stay on the maintainer's machine: the public repository shows the tool, not the lessons (decision D13).
 
-- **Concept notes** live in `docs/concepts/<no>-<slug>.md`, one per concept, numbered in learning order, roughly 40–60 lines each. Template in [AGENTS.md](AGENTS.md).
+- **Concept notes** live in `docs/concepts/<no>-<slug>.md`, one per concept, numbered in learning order, roughly 40–60 lines each. Template in [AGENTS.md](AGENTS.md). The `docs/` folder is gitignored.
 - **Order of work** in the implementation plan is chosen so no step uses a concept that an earlier step has not introduced.
 - **Loop per step:** concepts → smallest deliverable → verification → interview questions → stop.
 - **Interview prep** is part of each concept note: three to five questions with short model answers. Networking (VPC, subnets, security groups, load balancers) gets an interview-only note even though v1.0 builds none of it, because it is the most asked topic and the ECS backend will need it.
@@ -80,6 +80,7 @@ This repository is built by someone learning AWS from zero, and the README says 
    ```
    The adapter is inert outside Lambda, so the same image runs unchanged on a laptop, on ECS, or anywhere else.
 3. Be built for the architecture the preview runs on (`x86_64` by default). A `linux/arm64` image on an `x86_64` function fails at start; the diagnostics say so.
+4. Be pushed as a single-platform image, not an image index. Docker's containerd image store and `docker/build-push-action` attach a provenance attestation by default, which turns the tag into an index that Lambda rejects. `docker push --platform linux/amd64` or building with `--provenance=false` avoids it; the README shows both.
 
 **Happy path**
 
@@ -418,7 +419,7 @@ aws-pr-previews/
 │   ├── demo-app/                   # server.ts, Dockerfile (with Web Adapter line)
 │   └── workflows/preview.yml       # copy-paste workflow for users
 ├── docs/
-│   ├── concepts/                   # one short note per concept (see §5)
+│   ├── concepts/                   # one short note per concept (see §5); gitignored, local only
 │   ├── costs.md
 │   └── troubleshooting.md
 ├── .github/workflows/              # ci.yml terraform.yml dogfood.yml release.yml
@@ -510,7 +511,7 @@ The future ECS backend adds a load balancer at ~20 USD per month and, optionally
 - [ ] The deploy role cannot delete a function outside the stack prefix (negative test).
 - [ ] All four workflows are green on `main`; badges in the README.
 - [ ] `v1.0.0` is tagged, `dist/` matches source, and `uses: Pantelijaa/aws-pr-previews@v1` works from another repository.
-- [ ] README has: 60-second pitch, GIF of a PR receiving a URL, architecture diagram, quick start, the Dockerfile requirement, inputs and outputs table, cost table, limits, FAQ, comparison with PullPreview, and a "built as a learning project" section linking `docs/concepts/`.
+- [ ] README has: 60-second pitch, GIF of a PR receiving a URL, architecture diagram, quick start, the Dockerfile requirement, inputs and outputs table, cost table, limits, FAQ, comparison with PullPreview, and a "built as a learning project" section.
 - [ ] Listed on the GitHub Marketplace. MIT license, CONTRIBUTING, issue templates.
 
 ## 17. Roadmap after v1.0
@@ -540,3 +541,4 @@ The future ECS backend adds a load balancer at ~20 USD per month and, optionally
 | D10 | Node's `parseArgs` for the CLI, Biome for lint and format, esbuild for bundling | commander, ESLint plus Prettier, ncc | Smallest toolchain that does the job. |
 | D11 | Dogfood workflow is the integration test | Separate nightly integration workflow | Every PR already proves the whole path. |
 | D12 | MIT license | Apache-2.0 | Lowest adoption friction, matches most Marketplace actions. |
+| D13 | Concept notes stay out of the repository; `AGENTS.md` is committed | Commit the notes as a public learning resource | Maintainer's choice on 2026-10-23: the public repository shows the tool and its working rules; the learning material stays private. |

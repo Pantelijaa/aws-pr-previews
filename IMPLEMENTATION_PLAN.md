@@ -122,12 +122,12 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Why now:** Lambda can only run container images that live in ECR in the same account and region.
 
 **Build**
-- [ ] `ecr.tf`: one repository per entry in `var.ecr_repositories`, scan on push, a lifecycle policy expiring untagged images after 1 day and `pr-*` tags after `var.ecr_pr_image_expiry_days`.
-- [ ] Variables and outputs per the spec (§9.6). In the example root, `ecr_repositories = ["demo-app"]`.
+- [x] `ecr.tf`: one repository per entry in `var.ecr_repositories`, scan on push, a lifecycle policy expiring untagged images after 1 day and `pr-*` tags after `var.ecr_pr_image_expiry_days`.
+- [x] Variables and outputs per the spec (§9.6). In the example root, `ecr_repositories = ["demo-app"]`.
 
 **Verify**
-- [ ] `aws ecr get-login-password | docker login …`, tag and push `demo-app:dev` to the new repository. The image appears in the console with a scan result.
-- [ ] The lifecycle policy preview in the console shows which images would expire.
+- [x] `aws ecr get-login-password | docker login …`, tag and push `demo-app:dev` to the new repository. The image appears in the console with a scan result (clean). First push produced an image index; re-pushed with `--platform linux/amd64` so Lambda can run it.
+- [x] The lifecycle policy preview in the console shows which images would expire.
 
 **Interview prep:** tags versus digests and why production pins digests; what a lifecycle policy is for; how registry authentication works; ECR versus Docker Hub versus GHCR; why Lambda insists on same-account ECR.
 
@@ -282,7 +282,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 - [ ] `action.ts`: read inputs with `@actions/core`, derive `command`, PR number, repo and sha from the event, call `up` or `down`, set outputs.
 - [ ] `comment.ts`: find-or-create the sticky comment through Octokit; render the four states from spec §8.5.
 - [ ] `action.yml` with the inputs and outputs from spec §9.1, `runs: using: node24`, `main: dist/index.js`.
-- [ ] `.github/workflows/dogfood.yml`: on `pull_request` opened, synchronize, reopened and closed, build and push `demo-app` to ECR, then `uses: ./`. `concurrency` per PR.
+- [ ] `.github/workflows/dogfood.yml`: on `pull_request` opened, synchronize, reopened and closed, build and push `demo-app` to ECR, then `uses: ./`. `concurrency` per PR. Build with `--provenance=false` so the pushed tag is a plain image, not an index, which Lambda rejects (found in Step 5).
 - [ ] `examples/workflows/preview.yml`: the copy-paste workflow for users.
 
 **Verify**
@@ -360,7 +360,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Why now:** the tool works. Now it has to be discoverable, understandable in sixty seconds, and honest about limits.
 
 **Build**
-- [ ] `README.md`: pitch, GIF of a PR receiving its URL, architecture diagram, quick start (Terraform then workflow), the Dockerfile requirement, inputs and outputs table, cost table, limits, FAQ, comparison with PullPreview, "built as a learning project" section linking `docs/concepts/`.
+- [ ] `README.md`: pitch, GIF of a PR receiving its URL, architecture diagram, quick start (Terraform then workflow), the Dockerfile requirement, inputs and outputs table, cost table, limits, FAQ, comparison with PullPreview, "built as a learning project" section.
 - [ ] `docs/costs.md` (Lambda today, ECS plus ALB table for the future backend) and `docs/troubleshooting.md` (every diagnostics hint explained).
 - [ ] Issue and PR templates, `CODE_OF_CONDUCT.md`.
 - [ ] Marketplace listing, tag `v1.0.0`.
@@ -389,7 +389,7 @@ Planned, not scheduled. Pick it up after v1.0 with the same step loop. Idle cost
 
 ## Concept map
 
-Every note lives in `docs/concepts/<no>-<slug>.md`, numbered in the order the steps introduce them, and is written in the step that introduces it.
+Every note lives in `docs/concepts/<no>-<slug>.md`, numbered in the order the steps introduce them, and is written in the step that introduces it. The folder is gitignored; notes stay on the maintainer's machine.
 
 | No. | Slug | Step | Area |
 |-----|------|------|------|
