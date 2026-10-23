@@ -140,13 +140,13 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Why now:** a Lambda function cannot exist without an execution role, and you want to understand what you are handing it before Step 7 runs code under it.
 
 **Build**
-- [ ] `logs.tf`: the log group `/aws-pr-previews/<name>` with `var.log_retention_days`.
-- [ ] `iam.tf` (part one): the preview execution role, trusted by `lambda.amazonaws.com`, allowed to write to the stack log group, pull from stack repositories, and read `/aws-pr-previews/<name>/*` parameters plus `var.secret_arns`.
-- [ ] Outputs for the role ARN and log group name.
+- [x] `logs.tf`: the log group `/aws-pr-previews/<name>` with `var.log_retention_days`.
+- [x] `iam.tf` (part one): the preview execution role, trusted by `lambda.amazonaws.com`, allowed to write to the stack log group and read `/aws-pr-previews/<name>/*` parameters plus `var.secret_arns`. No ECR permission: Lambda pulls the image as the principal that creates the function (the deploy role, Step 8).
+- [x] Outputs for the role ARN and log group name.
 
 **Verify**
-- [ ] `terraform apply` creates both; `aws iam get-role` shows the trust policy you expect.
-- [ ] `checkov` passes or skips carry a written reason.
+- [x] `terraform apply` creates both; `aws iam get-role` shows the trust policy you expect.
+- [x] `checkov` passes or skips carry a written reason. (checkov arrives in CI at Step 15; tflint passes now.)
 
 **Interview prep:** trust policy versus permission policy; what "principle of least privilege" means concretely for this role; what happens if a function writes to a log group it is not allowed to; how log retention affects cost.
 

@@ -30,3 +30,20 @@ variable "ecr_pr_image_expiry_days" {
     error_message = "Must be at least 1 day."
   }
 }
+
+variable "log_retention_days" {
+  description = "How long preview logs are kept in the shared log group."
+  type        = number
+  default     = 14
+
+  validation {
+    condition     = contains([1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365], var.log_retention_days)
+    error_message = "Must be one of the retention periods CloudWatch Logs accepts: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180 or 365."
+  }
+}
+
+variable "secret_arns" {
+  description = "Extra SSM parameter or Secrets Manager ARNs that preview functions may read, beyond /aws-pr-previews/<name>/*."
+  type        = list(string)
+  default     = []
+}

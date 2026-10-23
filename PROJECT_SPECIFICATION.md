@@ -380,7 +380,7 @@ Parsed into a readonly `StackConfig` type with a ten-line validator. Unknown fie
 - `tag:GetResources`.
 
 **Reaper role:** `tag:GetResources`, `lambda:GetFunction`, `lambda:ListTags`, `lambda:DeleteFunction` on the same name pattern, plus its own logs.
-**Preview execution role** (passed to every preview function): `AWSLambdaBasicExecutionRole` scoped to the stack log group, `ecr` pull, `ssm:GetParameter*` and `secretsmanager:GetSecretValue` on `/aws-pr-previews/<name>/*` and `var.secret_arns`.
+**Preview execution role** (passed to every preview function): `logs:CreateLogStream` and `logs:PutLogEvents` on the stack log group, `ssm:GetParameter*` and `secretsmanager:GetSecretValue` on `/aws-pr-previews/<name>/*` and `var.secret_arns`. No ECR permission: Lambda pulls the image with the permissions of the principal that creates the function, which is the deploy role.
 
 ### 9.8 Environment variables set on the function
 
