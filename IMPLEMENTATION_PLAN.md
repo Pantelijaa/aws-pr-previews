@@ -159,14 +159,14 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 **Why now:** this is the compute layer. Doing it once by hand shows exactly what the CLI will automate in Step 10.
 
 **Build**
-- [ ] With the AWS CLI: `aws lambda create-function` from the `demo-app` image, the Step 6 role, 1024 MB, 30 s, `LoggingConfig` pointing at the stack log group, env `AWS_LWA_PORT=8080`.
-- [ ] `aws lambda create-function-url-config` with auth `NONE` and `aws lambda add-permission` for `lambda:InvokeFunctionUrl`.
-- [ ] Open the URL. Watch the first request take a few seconds (cold start) and the second one be instant. Read the function's log stream in the shared log group.
-- [ ] Delete the function. Confirm the URL stops answering.
+- [x] With the AWS CLI: `aws lambda create-function` from the `demo-app` image, the Step 6 role, 1024 MB, 30 s, `LoggingConfig` pointing at the stack log group, env `AWS_LWA_PORT=8080`. `Pending` to `Active` took about 3 s.
+- [x] `aws lambda create-function-url-config` with auth `NONE`, then two `aws lambda add-permission` calls for principal `*`: `lambda:InvokeFunctionUrl` (`--function-url-auth-type NONE`) and `lambda:InvokeFunction` (`--invoked-via-function-url`). Verified: with only the first, the URL answers 403; with both, 200.
+- [x] Open the URL. Watch the first request take a few seconds (cold start) and the second one be instant. Read the function's log stream in the shared log group. Cold start: `Init Duration` 1.4 s, request 4 ms; warm requests 2–4 ms. Rejected (403) requests never reach the function and leave no log line.
+- [x] Delete the function. Confirm the URL stops answering.
 
 **Verify**
-- [ ] The demo page loaded over HTTPS at a `lambda-url` hostname with a valid certificate, and nothing is left in the account.
-- [ ] `terraform plan` is still clean (the manual function was outside Terraform on purpose; the concept note says why).
+- [x] The demo page loaded over HTTPS at a `lambda-url` hostname with a valid certificate, and nothing is left in the account.
+- [x] `terraform plan` is still clean (the manual function was outside Terraform on purpose; the concept note says why).
 
 **Interview prep:** what Lambda is and what it is not good for; cold starts and what affects them; how the Web Adapter turns an HTTP server into a Lambda handler; what a Function URL is compared to API Gateway; how Lambda pricing works and why idle is free.
 
@@ -199,7 +199,7 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 
 **Build**
 - [ ] `ssm.tf`: a `String` parameter `/aws-pr-previews/<name>/config` with the JSON from spec §9.3, built with `jsonencode` from the module's own resources.
-- [ ] Output `ssm_config_parameter_name`.
+- [ ] Output `ssm_config_parameter_name`. Also pass `function_role_arn` and `log_group_name` through the example root's `outputs.tf`; Step 7 found they stop at the module.
 
 **Verify**
 - [ ] `aws ssm get-parameter --name /aws-pr-previews/main/config` returns JSON with every field from the spec.
@@ -365,12 +365,15 @@ Every step in this part adds Terraform to `terraform/modules/aws-pr-previews/` a
 - [ ] Issue and PR templates, `CODE_OF_CONDUCT.md`.
 - [ ] Marketplace listing, tag `v1.0.0`.
 - [ ] Launch posts: r/aws, r/devops, Hacker News "Show HN", dev.to, LinkedIn. Each one honest: what it does, what it costs, what it does not do.
+- [ ] Switch the Step 12 conflict-retry test to Vitest fake timers (`vi.useFakeTimers()`) so it no longer waits in real time.
 
 **Verify**
 - [ ] Every box in spec §16 is ticked.
 - [ ] Someone who has never seen the repo follows the quick start on a fresh account and gets a preview URL. Time them.
 
 **Interview prep:** how you would explain this project in two minutes; the hardest bug and how you found it; what you would do differently; what you would build next and why.
+
+**Bridge to the next project:** the `ResourceConflictException` retry from Step 12 waits up to a minute, so this step moves its test onto fake timers; a real wait is slow and flaky on a busy CI runner. That is the story behind the next project, a flaky-test detector: timing and async waits cause roughly 45% of flaky tests (Luo et al., 2014), Google reported about 16% of its tests showing some flakiness, and GitHub saw about one in eleven commits hit a red build from a flaky test. Be ready to name the main causes (async waits, shared state and test order, concurrency, dates and time zones, hidden randomness, external services) and why "just rerun it" makes a team stop trusting red builds.
 
 ---
 
